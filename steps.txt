@@ -1,0 +1,11 @@
+npm install -g yarn
+install node
+use yarn to run- yarn start
+
+
+//setup git user first time only (https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup)
+git --version
+git config --global user.name "shehan"
+git config --global user.email "10749822@students.plymouth.ac.uk"
+
+source control->initialize repository->commit
