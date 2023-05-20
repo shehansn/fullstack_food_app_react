@@ -27,6 +27,14 @@ npm run serve
 npx create-react-app folder-name
 
 yarn create react-app folder-name
+
+```
+
+# Or To create react project using yarn
+
+```
+yarn global add create-react-app
+create-react-app folder-name
 ```
 
 # To start client
