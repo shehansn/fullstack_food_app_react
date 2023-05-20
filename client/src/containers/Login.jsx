@@ -5,8 +5,11 @@ import { FaEnvelope, FaLock, FcGoogle } from '../assets/icons'
 import { motion } from 'framer-motion'
 import { buttonClick } from '../animations'
 
-import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'
+import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 import { app } from '../config/firebase.config'
+import { validateUserJWTToken } from '../api'
+import { useNavigate } from 'react-router-dom';
+
 const Login = () => {
 
     const [userEmail, setUserEmail] = useState("")
@@ -17,13 +20,18 @@ const Login = () => {
     const firebaseAuth = getAuth(app);
     const provider = new GoogleAuthProvider();
 
+    const navigate = useNavigate()
 
     const loginWithGoogle = async () => {
-        await signInWithPopup(firebaseAuth, provider).then(userCred => {
-            firebaseAuth.onAuthStateChanged(cred => {
+        await signInWithPopup(firebaseAuth, provider).then((userCred) => {
+            firebaseAuth.onAuthStateChanged((cred) => {
                 if (cred) {
-                    cred.getIdToken().then(token => {
-                        console.log(token)
+                    cred.getIdToken().then((token) => {
+                        validateUserJWTToken(token).then((data) => {
+                            console.log("data inside token", data);
+                        })
+                        console.log("token", token)
+                        navigate("/", { replace: true });
                     })
 
                 }
@@ -33,6 +41,63 @@ const Login = () => {
         //localStorage.setItem("user", JSON.stringify(providerData[0]));
     }
 
+    const signupWithEmailPassword = async () => {
+        if ((userEmail === '' || password === '' || confirmPassword === '')) {
+            //alert message
+            console.log("empty values");
+        } else {
+            if (password === confirmPassword) {
+
+                await createUserWithEmailAndPassword(firebaseAuth, userEmail, password).then(userCred => {
+                    firebaseAuth.onAuthStateChanged((cred) => {
+                        if (cred) {
+                            cred.getIdToken().then((token) => {
+                                validateUserJWTToken(token).then((data) => {
+                                    console.log("data inside token sign up", data);
+                                })
+                                setUserEmail('');
+                                setPassword("");
+                                setConfirmPassword("");
+                                console.log("token sign up", token)
+                                navigate("/", { replace: true });
+                            })
+                        }
+                    })
+                })
+                console.log("matched sign up");
+            } else {
+                console.log("not matched sign up");
+            }
+        }
+        console.log("signup clicked")
+    }
+
+
+    const signinWithEmailPassword = async () => {
+        if ((userEmail === '' || password === '')) {
+            //alert message
+            console.log("empty values");
+        } else {
+            await signInWithEmailAndPassword(firebaseAuth, userEmail, password).then(userCred => {
+                firebaseAuth.onAuthStateChanged((cred) => {
+                    if (cred) {
+                        cred.getIdToken().then((token) => {
+                            validateUserJWTToken(token).then((data) => {
+                                console.log("data inside token sign in", data);
+                            })
+                            setUserEmail('');
+                            setPassword("");
+                            console.log("token sign in", token)
+                            navigate("/", { replace: true });
+                        })
+                    }
+                })
+            })
+            console.log("matched");
+
+        }
+        console.log("signin clicked")
+    }
 
     return (
         <div className='w-screen h-screen relative overflow-hidden flex'>
@@ -98,6 +163,7 @@ const Login = () => {
                             <motion.button {...buttonClick}
                                 className='text-red-500 underline cursor-pointer bg-transparent'
                                 onClick={() => setIsSignUp(false)}
+
                             >
                                 SignIn
                             </motion.button>
@@ -107,12 +173,14 @@ const Login = () => {
                     {isSignUp ? (
                         <motion.button {...buttonClick}
                             className='w-full px-4 py-2 rounded-md bg-red-400 cursor-pointer text-white text-xl capitalize hover:bg-red-600 transition-all duration-150'
+                            onClick={signupWithEmailPassword}
                         >
                             Sign Up
                         </motion.button>
                     ) : (
                         <motion.button {...buttonClick}
                             className='w-full px-4 py-2 rounded-md bg-red-400 cursor-pointer text-white text-xl capitalize hover:bg-red-600 transition-all duration-150'
+                            onClick={signinWithEmailPassword}
                         >
                             Sign In
                         </motion.button>

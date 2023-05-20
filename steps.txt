@@ -37,7 +37,10 @@ navigate to index. css and
 intsll google font extention 
 ctrl+shipt+p and select google fonts insert css ->selct font jost > enter
 
-
 yarn add react-router-dom react-icons framer-motion
 
 yarn add firebase
+
+IN CLIENT
+yarn add axios
+yarn add redux react-redux
