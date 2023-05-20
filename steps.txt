@@ -1,3 +1,4 @@
+IN CLIENT
 npm install -g yarn
 install node
 use yarn to run- yarn start
@@ -13,3 +14,30 @@ remove git credential
 https://stackoverflow.com/questions/43573790/how-to-remove-git-account-from-local-machine-and-add-new-account
 
 source control->initialize repository->commit and commit add remote branch_> enter as same name and push
+
+//crete react app on client folder
+yarn create react-app ./
+
+or 
+
+yarn global add create-react-app
+create-react-app my-app
+
+IN SERVER
+firebase login
+firebase init
+
+functions  -> select existing project-> select ->project->javascript->setp eslint yes->install dependencies yes->
+
+
+IN CLIENT
+install tailwind css 
+
+navigate to index. css and
+intsll google font extention 
+ctrl+shipt+p and select google fonts insert css ->selct font jost > enter
+
+
+yarn add react-router-dom react-icons framer-motion
+
+yarn add firebase
