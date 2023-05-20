@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { LoginBg, Logo } from '../assets'
 import { LoginInput } from '../components'
 import { FaEnvelope, FaLock, FcGoogle } from '../assets/icons'
@@ -9,6 +9,10 @@ import { getAuth, signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPas
 import { app } from '../config/firebase.config'
 import { validateUserJWTToken } from '../api'
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux'
+import { setUserDetails } from '../context/actions/userAction'
+import { alertInfo, alertWarning } from '../context/actions/alertActions'
+
 
 const Login = () => {
 
@@ -21,6 +25,16 @@ const Login = () => {
     const provider = new GoogleAuthProvider();
 
     const navigate = useNavigate()
+    const dispatch = useDispatch();
+
+    const user = useSelector((state) => state.user);
+    const alert = useSelector((state) => state.alert);
+
+    useEffect(() => {
+        if (user) {
+            navigate("/", { replace: true });
+        }
+    }, [user]);
 
     const loginWithGoogle = async () => {
         await signInWithPopup(firebaseAuth, provider).then((userCred) => {
@@ -28,6 +42,7 @@ const Login = () => {
                 if (cred) {
                     cred.getIdToken().then((token) => {
                         validateUserJWTToken(token).then((data) => {
+                            dispatch(setUserDetails(data))
                             console.log("data inside token", data);
                         })
                         console.log("token", token)
@@ -38,12 +53,13 @@ const Login = () => {
             })
         });
 
-        //localStorage.setItem("user", JSON.stringify(providerData[0]));
+
     }
 
     const signupWithEmailPassword = async () => {
         if ((userEmail === '' || password === '' || confirmPassword === '')) {
             //alert message
+            dispatch(alertInfo('Required fields should not be empty'));
             console.log("empty values");
         } else {
             if (password === confirmPassword) {
@@ -54,6 +70,7 @@ const Login = () => {
                             cred.getIdToken().then((token) => {
                                 validateUserJWTToken(token).then((data) => {
                                     console.log("data inside token sign up", data);
+                                    dispatch(setUserDetails(data))
                                 })
                                 setUserEmail('');
                                 setPassword("");
@@ -67,6 +84,7 @@ const Login = () => {
                 console.log("matched sign up");
             } else {
                 console.log("not matched sign up");
+                dispatch(alertWarning(`Password and confirm password doesn't matched`));
             }
         }
         console.log("signup clicked")
@@ -76,6 +94,7 @@ const Login = () => {
     const signinWithEmailPassword = async () => {
         if ((userEmail === '' || password === '')) {
             //alert message
+            dispatch(alertInfo('Required fields should not be empty'));
             console.log("empty values");
         } else {
             await signInWithEmailAndPassword(firebaseAuth, userEmail, password).then(userCred => {
@@ -84,6 +103,7 @@ const Login = () => {
                         cred.getIdToken().then((token) => {
                             validateUserJWTToken(token).then((data) => {
                                 console.log("data inside token sign in", data);
+                                dispatch(setUserDetails(data))
                             })
                             setUserEmail('');
                             setPassword("");
