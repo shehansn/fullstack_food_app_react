@@ -42,7 +42,7 @@ const Header = () => {
                     <MdShoppingCart className="text-textColor text-2xl" />
                     <div className=" absolute -top-4 -right-2 w-5 h-5 rounded-full bg-red-400 flex items-center justify-center">
                         <p className="text-xs text-white font-semibold">
-                            1
+                            2
                         </p>
                     </div>
 
