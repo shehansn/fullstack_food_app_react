@@ -21,6 +21,12 @@ firebase init
 npm run serve
 ```
 
+# To add service account key
+
+```
+add service account key inside to functions
+```
+
 # To create react project using npm or yarn
 
 ```
