@@ -1,7 +1,4 @@
-/* eslint-disable eol-last */
-/* eslint-disable object-curly-spacing */
-/* eslint-disable indent */
-/* eslint-disable no-unused-vars */
+/* eslint-disable */
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 require("dotenv").config();
