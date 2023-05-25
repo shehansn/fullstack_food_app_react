@@ -3,7 +3,7 @@ import React from 'react'
 const DashboardOrders = () => {
     return (
         <div>
-            dash orders
+            dashboard orders
         </div>
     )
 }

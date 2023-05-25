@@ -3,7 +3,7 @@ import React from 'react'
 const DashboardNewItems = () => {
     return (
         <div>
-            dash new items
+            dashboard new items
         </div>
     )
 }
