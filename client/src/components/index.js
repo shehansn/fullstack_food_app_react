@@ -11,4 +11,8 @@ export { default as DashboardOrders } from './DashboardOrders' //dbhome
 export { default as DashboardItems } from './DashboardItems' //dbhome
 export { default as DashboardNewItems } from './DashboardNewItems' //dbhome
 export { default as DashboardUsers } from './DashboardUsers' //dbhome
+export { default as DataTable } from './DataTable'
+export { default as Spinner } from './Spinner'
+
+
 

@@ -37,14 +37,14 @@ const DashBoardLeftSection = () => {
                 </NavLink>
             </motion.ul>
 
-            <div className='w-full h-225 items-center justify-center flex mt-auto px-2 '>
-                <div className='w-full h-full rounded-md bg-red-400 flex items-center justify-center flex-col gap-3 px-3 py-1'>
+            <div className='w-full h-225 items-center justify-center flex mt-auto px-2'>
+                <div className='h-full w-full rounded-md bg-red-400 flex items-center justify-center flex-col gap-2 px-1 '>
 
                     <p className='text-2xl font-bold text-red-500'>?</p>
 
                     <p className='text-xl text-primary font-semibold'>Help center</p>
                     <p className='text-base text-gray-300 text-center'>Having trouble in SNFoodee app. please contact us for more help</p>
-                    <p className='px-4 py-1 rounded-full bg-primary text-red-500 cursor-pointer'>  Get in Touch</p>
+                    <p className='px-4 py-1 rounded-full bg-primary text-red-500 cursor-pointer mb-1'>  Get in Touch</p>
                 </div>
 
             </div>

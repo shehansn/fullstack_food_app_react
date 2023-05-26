@@ -59,7 +59,11 @@ const DashBoardHeader = () => {
 
                     </div>
                     {isMenu && (
-                        <motion.div {...slideTop} className='px-6 py-4 w-48 bg-cardOverlay backdrop-blur-md rounded-md shadow-md absolute top-10 right-0 flex flex-col gap-4'>
+                        <motion.div {...slideTop} className='z-50 px-6 py-4 w-48 bg-cardOverlay backdrop-blur-md rounded-md shadow-md absolute top-10 right-0 flex flex-col gap-4'>
+
+                            <motion.div {...buttonClick} className='group flex items-center justify-center px-3 py-2 rounded-md hover:bg-gray-200 gap-3'>
+                                <Link className='hover:text-red-500 text-xl text-textColor' to={"/"} >Home </Link>
+                            </motion.div>
 
                             <motion.div {...buttonClick} onClick={signOut} className='group flex items-center justify-center px-3 py-2 rounded-md bg-gray-100 hover:bg-gray-200 gap-3'>
                                 <MdLogout className='text-2xl text-textColor group-hover::text-headingColor' />
