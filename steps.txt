@@ -45,3 +45,12 @@ IN CLIENT
 yarn add axios
 yarn add redux react-redux
 yarn add -D tailwind-scrollbar
+
+yarn add material-table
+yarn add @material-ui/core
+yarn add @material-ui/icons
+
+to resolve material table errors 
+yarn add @emotion/react @emotion/styled @material-ui/core @material-ui/icons @mui/icons-material @mui/lab @mui/material @mui/styles
+
+yarn add react-double-scrollbar

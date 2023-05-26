@@ -26,7 +26,7 @@ const App = () => {
                 cred.getIdToken().then((token) => {
                     validateUserJWTToken(token).then((data) => {
                         dispatch(setUserDetails(data))
-                        console.log("data inside token app.js", data);
+                        console.log("data inside token app.js when refreshing", data);
                     })
                     console.log("token from app.js", token)
                 });
