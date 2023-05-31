@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { getAuth } from 'firebase/auth'
 import { app } from '../config/firebase.config'
 import { setUserNull } from '../context/actions/userAction'
+import { setCartInVisible, setCartVisible } from '../context/actions/displayCartAction'
 
 const Header = () => {
     const user = useSelector((state) => state.user);
@@ -25,9 +26,11 @@ const Header = () => {
             .catch((err) => console.log(err))
 
     }
+    const cartItems = useSelector((state) => state.cartItems);
+
     return (
 
-        <header className='fixed backdrop-blur-md z-50 inset-x-0 top-0 flex items-center justify-between px-12 md:px-20 py-6 '>
+        <header className='fixed backdrop-blur-md z-50 inset-x-0 top-0 flex items-center justify-between px-12 md:px-20 py-4 '>
             <NavLink to={"/"} className="flex items-center justify-center gap-4">
                 <img src={Logo} className="w-24 object-cover" alt="logo" />
                 <p className="text-headingColor text-xl font-semibold"> SN FOODEES</p>
@@ -54,12 +57,17 @@ const Header = () => {
                     </NavLink>
                 </motion.ul>
 
-                <motion.div {...buttonClick} className='relative cursor-pointer'>
+                <motion.div {...buttonClick} onClick={() => dispatch(setCartVisible())} className='relative cursor-pointer'>
                     <MdShoppingCart className="text-textColor text-2xl" />
                     <div className=" absolute -top-4 -right-2 w-5 h-5 rounded-full bg-red-400 flex items-center justify-center">
-                        <p className="text-xs text-white font-semibold">
-                            2
-                        </p>
+
+
+                        {cartItems?.length > 0 && (
+                            <p className="text-xs text-white font-semibold">
+                                {cartItems?.length}
+                            </p>
+                        )}
+
                     </div>
 
                 </motion.div>
@@ -80,7 +88,10 @@ const Header = () => {
                         </div>
                         {isMenu && (
                             <motion.div {...slideTop} className='px-6 py-4 w-48 bg-cardOverlay backdrop-blur-md rounded-md shadow-md absolute top-10 right-0 flex flex-col gap-4'>
-                                <Link className='hover:text-red-500 text-xl text-textColor' to={"/dashboard/home"} onClick={() => setIsMenu(false)}>Dashboard </Link>
+                                {user?.user_id === process.env.REACT_APP_ADMIN_ID && (
+                                    <Link className='hover:text-red-500 text-xl text-textColor' to={"/dashboard/home"} onClick={() => setIsMenu(false)}>Dashboard </Link>
+
+                                )}
                                 <Link className='hover:text-red-500 text-xl text-textColor' to={"/profile"} onClick={() => setIsMenu(false)}>My Profile </Link>
                                 <Link className='hover:text-red-500 text-xl text-textColor' to={"/user-orders"} onClick={() => setIsMenu(false)}>Orders </Link>
                                 <hr />

@@ -26,10 +26,13 @@ admin.initializeApp({
 
 // api endpoints
 app.get("/", (req, res) => {
-    return res.send("response get for intioal stage");
+    return res.send("response get for initial stage index.js");
 });
 
 const userRoute = require("./routes/user");
 app.use("/api/users", userRoute);
+
+const productRoute = require("./routes/products");
+app.use("/api/products", productRoute);
 
 exports.app = functions.https.onRequest(app);

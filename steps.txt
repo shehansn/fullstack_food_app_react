@@ -54,3 +54,18 @@ to resolve material table errors
 yarn add @emotion/react @emotion/styled @material-ui/core @material-ui/icons @mui/icons-material @mui/lab @mui/material @mui/styles
 
 yarn add react-double-scrollbar
+yarn add @coreui/react-chartjs
+yarn add swiper
+yarn add axios
+
+//install stripe in functions folder in serrver
+cd SERVERcd functions
+npm install stripe
+
+//in cmd terminal
+stripe login
+stripe listen --forward-to http://127.0.0.1:5001/fullstack-food-app-react/us-central1/app/api/products/webhook
+
+in new terminal 
+
+stripe trigger payment_intent.succeeded

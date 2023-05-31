@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { categories } from '../utils/data';
-import { Spinner } from '../components';
+import { MainLoader, Spinner } from '../components';
 import { FaCloudUploadAlt, MdDelete } from '../assets/icons';
 import {
     deleteObject,
@@ -11,16 +11,19 @@ import {
 import { storage } from "../config/firebase.config";
 import { useDispatch, useSelector } from 'react-redux';
 
-import { alertDanger, alertNULL, alertSuccess, alertWarning } from '../context/actions/alertActions';
+import { alertDanger, alertInfo, alertNULL, alertSuccess, alertWarning } from '../context/actions/alertActions';
 import { motion } from 'framer-motion';
-import { buttonClick } from '../animations';
+import { buttonClick, fadeInOut } from '../animations';
 import { LinearProgress } from '@mui/material';
+import { addNewProduct, getAllProducts } from '../api';
+import { setAllProducts } from '../context/actions/productAction'
 
 const DashboardNewItems = () => {
     const [itemName, setItemName] = useState("");
     const [price, setPrice] = useState("");
     const [category, setCategory] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [isLoading2, setIsLoading2] = useState(false);
     const [progress, setProgress] = useState(null);
     const [imageDownloadURL, setImageDownloadURL] = useState(null);
 
@@ -80,17 +83,37 @@ const DashboardNewItems = () => {
     }
 
     const submitNewData = () => {
+        dispatch(alertInfo("Adding item..."));
+
         const data = {
             product_name: itemName,
             product_category: category,
             product_price: price,
-            inputURL: imageDownloadURL,
+            imageURL: imageDownloadURL,
         }
-        console.log("data sss", data)
+
+        console.log("data from add new item", data);
+        addNewProduct(data).then((res) => {
+            console.log("response from add new item", res);
+            dispatch(alertSuccess('New Item Added Successfully'));
+            setTimeout(() => {
+                dispatch(alertNULL())
+            }, 3000);
+            setImageDownloadURL(null)
+            setItemName("")
+            setPrice("")
+            setCategory(null)
+        });
+        getAllProducts().then((data) => {
+            console.log("products from add product", data);
+            dispatch(setAllProducts(data));
+        });
+
     }
 
     return (
         <div className='flex items-center justify-center flex-col pt-6 px-24 w-full'>
+
             <div className='border border-gray-300 rounded-md p-4 w-full flex flex-col items-center justify-center gap-4'>
                 <InputValueField type="text" placeHolder={"Item Name Here"} stateFunc={setItemName} stateValue={itemName} />
 

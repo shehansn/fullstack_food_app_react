@@ -4,12 +4,14 @@ import { Dashboard, Login, Main } from './containers';
 import { getAuth } from 'firebase/auth';
 import { app } from './config/firebase.config';
 import { useDispatch, useSelector } from 'react-redux';
-import { validateUserJWTToken } from './api';
+import { validateUserJWTToken, getAllProducts, getAllCartItems } from './api';
 import { setUserDetails } from './context/actions/userAction'
+import { setAllProducts } from './context/actions/productAction'
 
 import { fadeInOut } from './animations';
 import { motion } from 'framer-motion';
-import { Alert, MainLoader } from './components';
+import { Alert, CheckoutSuccess, MainLoader, UserOrders } from './components';
+import { setCartItems } from './context/actions/cartAction';
 
 const App = () => {
     const firebaseAuth = getAuth(app);
@@ -25,6 +27,13 @@ const App = () => {
             if (cred) {
                 cred.getIdToken().then((token) => {
                     validateUserJWTToken(token).then((data) => {
+                        if (data) {
+                            getAllCartItems(data?.user_id).then((items) => {
+                                console.log("cart items from app.js", items);
+                                dispatch(setCartItems(items))
+
+                            })
+                        }
                         dispatch(setUserDetails(data))
                         console.log("data inside token app.js when refreshing", data);
                     })
@@ -35,6 +44,12 @@ const App = () => {
                 setIsLoading(false);
             }, 4000);
         })
+
+        getAllProducts().then((data) => {
+            console.log("product data from app.js", data)
+            dispatch(setAllProducts(data));
+        });
+
     }, [])
 
     return (
@@ -48,7 +63,8 @@ const App = () => {
                 <Route path='/*' element={<Main />} />
                 <Route path='/login' element={<Login />} />
                 <Route path='/dashboard/*' element={<Dashboard />} />
-
+                <Route path='/checkout-success' element={<CheckoutSuccess />} />
+                <Route path='/user-orders' element={<UserOrders />} />
             </Routes>
             {alert?.type && <Alert type={alert?.type} message={alert?.message} />}
         </div >
