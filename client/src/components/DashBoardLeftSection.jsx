@@ -37,7 +37,7 @@ const DashBoardLeftSection = () => {
                 </NavLink>
             </motion.ul>
 
-            <div className='w-full h-225 items-center justify-center flex mt-auto px-2'>
+            {/* <div className='w-full h-225 items-center justify-center flex mt-auto px-2'>
                 <div className='h-full w-full rounded-md bg-red-400 flex items-center justify-center flex-col gap-2 px-1 '>
 
                     <p className='text-2xl font-bold text-red-500'>?</p>
@@ -47,7 +47,7 @@ const DashBoardLeftSection = () => {
                     <p className='px-4 py-1 rounded-full bg-primary text-red-500 cursor-pointer mb-1'>  Get in Touch</p>
                 </div>
 
-            </div>
+            </div> */}
 
 
         </div>
